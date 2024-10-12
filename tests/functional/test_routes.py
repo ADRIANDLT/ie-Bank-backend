@@ -1,5 +1,6 @@
 from iebank_api import app
 import pytest
+import json
 
 def test_get_accounts(testing_client):
     """
@@ -29,17 +30,37 @@ def test_create_account(testing_client):
     response = testing_client.post('/accounts', json={'name': 'John Doe', 'currency': '€', 'country': 'Spain'})
     assert response.status_code == 200
 
-# add functional tests for the rest of the routes methods/rest apis (delete, put/update, get by id, skull consult)
-
-def test_delete_account(testing_client):
+def test_get_account_by_account_id(testing_client):
     """
     GIVEN a Flask application
-    WHEN the '/accounts' page is deleted (DELETE)
+    WHEN the '/accounts' page is requested (GET)
     THEN check the response is valid
     """
-    response = testing_client.delete('/accounts/1')
-    assert response.status_code == 200
+    # Query all existing accounts
+    response_all = testing_client.get('/accounts')
+    assert response_all.status_code == 200
 
+    # Parse the JSON response
+    accounts = json.loads(response_all.data)
+    
+    # Ensure there are accounts in the response
+    assert len(accounts) > 0
+
+    # Get the first account
+    first_account = accounts['accounts'][0]
+    
+    # Perform assertions on the first account
+    assert 'id' in first_account
+    assert 'account_number' in first_account
+    assert 'name' in first_account
+    assert 'currency' in first_account
+    assert 'country' in first_account
+
+    # Now we can test get by account number
+    response_single = testing_client.get('/accounts/' + str(first_account['id']))
+    assert response_single.status_code == 200
+
+# test update/put to the by default account id=1
 def test_put_account(testing_client):
     """
     GIVEN a Flask application
@@ -49,13 +70,14 @@ def test_put_account(testing_client):
     response = testing_client.put('/accounts/1', json={'name': 'John Doe', 'currency': '€', 'country': 'Spain'})
     assert response.status_code == 200
 
-def test_get_account_by_id(testing_client):
+# test_delete_account would delete the by default created account with id=1
+def test_delete_account(testing_client):
     """
     GIVEN a Flask application
-    WHEN the '/accounts' page is requested by id (GET)
+    WHEN the '/accounts' page is deleted (DELETE)
     THEN check the response is valid
     """
-    response = testing_client.get('/accounts/1')
+    response = testing_client.delete('/accounts/1')
     assert response.status_code == 200
 
 def test_skull(testing_client):
@@ -65,4 +87,13 @@ def test_skull(testing_client):
     THEN check the response is valid
     """
     response = testing_client.get('/skull')
+    assert response.status_code == 200
+
+def test_hello_world(testing_client):
+    """
+    GIVEN a Flask application
+    WHEN the '/hello' page is requested (GET)
+    THEN check the response is valid
+    """
+    response = testing_client.get('/')
     assert response.status_code == 200
