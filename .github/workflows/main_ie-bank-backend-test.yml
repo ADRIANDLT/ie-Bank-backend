@@ -46,9 +46,9 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --exclude=venv --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      # - name: Test with pytest
-      #  run: |
-      #    python -m pytest --cov=iebank_api -v
+      - name: Test with pytest
+        run: |
+          python -m pytest --cov=iebank_api -v
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       - name: Zip artifact for deployment
