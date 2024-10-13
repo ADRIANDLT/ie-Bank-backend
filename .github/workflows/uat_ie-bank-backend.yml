@@ -1,12 +1,12 @@
-name: Build and deploy rest API to Azure Web App - adelatorre-backend-dev
+name: Build and deploy rest API to Azure Web App - adelatorre-backend-uat
 
 on:
   push:
     branches:
-      - dev
+      - main
   pull_request:
     branches:
-      - dev
+      - main
   workflow_dispatch:
 
 permissions:
@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      ENV: Development
+      ENV: UAT
 
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +50,6 @@ jobs:
         run: |
           python -m pytest --cov=iebank_api -v
 
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
@@ -66,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Development'
+      name: 'UAT'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -82,9 +81,9 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: 'Deploy to Azure Web App in UAT environment'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'adelatorre-backend-dev'
+          app-name: 'adelatorre-backend-uat'
           package: .
