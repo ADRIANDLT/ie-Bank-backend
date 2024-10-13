@@ -1,9 +1,6 @@
-name: Build and deploy rest API to Azure Web App - adelatorre-backend-uat
+name: ie-bank-backend
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
