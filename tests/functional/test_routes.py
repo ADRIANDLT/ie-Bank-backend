@@ -89,15 +89,6 @@ def test_delete_account(testing_client):
 #    response = testing_client.get('/skull')
 #    assert response.status_code == 200
 
-def test_hello_world(testing_client):
-    """
-    GIVEN a Flask application
-    WHEN the '/hello' page is requested (GET)
-    THEN check the response is valid
-    """
-    response = testing_client.get('/')
-    assert response.status_code == 200
-
 def test_skull(testing_client, mocker):
     """
     GIVEN a Flask application
@@ -120,3 +111,12 @@ def test_skull(testing_client, mocker):
     assert 'Database port:' in response.data.decode()
     assert 'Database user:' in response.data.decode()
     assert 'Database password:' in response.data.decode()
+
+def test_hello_world(testing_client):
+    """
+    GIVEN a Flask application
+    WHEN the '/hello' page is requested (GET)
+    THEN check the response is valid
+    """
+    response = testing_client.get('/')
+    assert response.status_code == 200
