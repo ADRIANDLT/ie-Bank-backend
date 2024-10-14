@@ -2,11 +2,13 @@ name: ie-bank-backend
 
 on:
   push:
-    branches-ignore:
-      - main  # Ignore pushes to the main branch, handled for any other branch
+    branches:
+      - dev
+      - main
   pull_request:
     branches:
       - main  # Run on pull requests to the main branch
+      - dev   # Run on pull requests to the dev branch
   workflow_dispatch:
 
 permissions:
