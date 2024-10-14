@@ -8,7 +8,6 @@ on:
   pull_request:
     branches:
       - main  # Run on pull requests to the main branch
-      - dev   # Run on pull requests to the dev branch
   workflow_dispatch:
 
 permissions:
