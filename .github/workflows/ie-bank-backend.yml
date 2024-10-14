@@ -3,7 +3,7 @@ name: ie-bank-backend
 on:
   push:
     branches-ignore:
-      - main  # Ignore pushes to the main branch
+      - main  # Ignore pushes to the main branch, handled for any other branch
   pull_request:
     branches:
       - main  # Run on pull requests to the main branch
