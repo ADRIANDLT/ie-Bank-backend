@@ -6,8 +6,6 @@ on:
       - dev
       - main
   pull_request:
-    branches-ignore:
-      - dev # Ignore pull requests to the dev branch
     branches:
       - main  # Run on pull requests to the main branch
   workflow_dispatch:
